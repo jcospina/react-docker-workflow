@@ -1,0 +1,23 @@
+# Using a docker-compose file to simplify the docker volume creation
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+      - /app/node_modules
+      - .:/app
+    stdin_open: true
+  # Create a new container to run all the tests however with this approach we dont have access to the
+  # test commands to manipulate the test suite
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ['npm', 'run', 'test']

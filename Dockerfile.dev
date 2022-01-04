@@ -1,0 +1,13 @@
+# Since this file has a .dev extension it wont be recognized by docker build
+# so the command needs to be changed to:
+# docker build -f Dockerfile.dev
+FROM node:16-alpine
+
+WORKDIR '/app'
+
+COPY ./package.json ./
+RUN npm install
+
+COPY ./ ./
+
+CMD ["npm", "start"]
